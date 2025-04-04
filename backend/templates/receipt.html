@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Receipt - {{ transaction.member_name }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .logo { height: 80px; margin-bottom: 10px; }
+        .title { font-size: 24px; font-weight: bold; }
+        .church-name { font-size: 18px; margin-bottom: 5px; }
+        .receipt-title { font-size: 20px; text-align: center; margin: 20px 0; }
+        .details { width: 100%; border-collapse: collapse; }
+        .details th, .details td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+        .details th { background-color: #f2f2f2; }
+        .footer { margin-top: 30px; text-align: center; font-size: 12px; }
+        .signature { margin-top: 50px; border-top: 1px solid #000; width: 200px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">CHURCH NAME</div>
+        <div class="church-name">Your Church Address Here</div>
+        <div>Phone: +254 700 000000 | Email: info@church.org</div>
+    </div>
+
+    <div class="receipt-title">OFFICIAL PAYMENT RECEIPT</div>
+
+    <table class="details">
+        <tr>
+            <th>Receipt Number:</th>
+            <td>CH{{ transaction.id|stringformat:"05d" }}</td>
+        </tr>
+        <tr>
+            <th>Date:</th>
+            <td>{{ transaction.created_at|date:"F j, Y" }}</td>
+        </tr>
+        <tr>
+            <th>Member Name:</th>
+            <td>{{ transaction.member_name }}</td>
+        </tr>
+        <tr>
+            <th>Phone Number:</th>
+            <td>{{ transaction.phone_number|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>Payment Type:</th>
+            <td>{{ transaction.get_payment_type_display }}</td>
+        </tr>
+        <tr>
+            <th>Category:</th>
+            <td>{{ transaction.get_category_display }}</td>
+        </tr>
+        <tr>
+            <th>Amount:</th>
+            <td>KSh {{ transaction.amount }}</td>
+        </tr>
+        <tr>
+            <th>Recorded By:</th>
+            <td>{{ transaction.recorded_by.user.get_full_name }}</td>
+        </tr>
+    </table>
+
+    <div class="footer">
+        <p>This is an official receipt from Church Name. Thank you for your contribution.</p>
+        <div class="signature"></div>
+        <p>Authorized Signature</p>
+    </div>
+</body>
+</html>
